@@ -22,11 +22,11 @@ elo_ratings = dict(zip(elo_df['team'], elo_df['elo']))
 prob_df = pd.read_csv('advancement_probabilities.csv')
 fixtures_df = pd.read_csv('monte_carlo_fixtures.csv')
 
-# ============================================
-# 2. COMMENTED OUT: PIPELINE TO REGENERATE
+# ===========================================
+# 2. COMMENTED OUT: Formation of Data
 #    cleaned_data.csv AND elo_ratings.csv
 #    Uncomment and run if raw data changes
-# ============================================
+# ===========================================
 
 # df = pd.read_csv('results.csv')
 # shootouts = pd.read_csv('shootouts.csv')
@@ -522,10 +522,10 @@ fig.suptitle('2026 FIFA World Cup — Advancement Probabilities by Group',
 
 colors = {
     '1st%': '#1a6b3c',
-    '2nd%': '#2980b9',
-    '3rd_qual%': '#f39c12',
-    '3rd_elim%': '#e67e22',
-    '4th%': '#c0392b'
+    '2nd%': "#16b71b",
+    '3rd_qual%': "#28f508",
+    '3rd_elim%': "#e30909",
+    '4th%': "#ff0000"
 }
 
 labels = {
