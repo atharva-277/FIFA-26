@@ -19,6 +19,7 @@ df = pd.read_csv('cleaned_data.csv')
 df['date'] = pd.to_datetime(df['date'])
 elo_df = pd.read_csv('elo_ratings.csv')
 elo_ratings = dict(zip(elo_df['team'], elo_df['elo']))
+rankings_df = pd.read_csv('fifa_rankings.csv')
 prob_df = pd.read_csv('advancement_probabilities.csv')
 fixtures_df = pd.read_csv('monte_carlo_fixtures.csv')
 
@@ -102,6 +103,9 @@ fixtures_df = pd.read_csv('monte_carlo_fixtures.csv')
 # df['elo_difference'] = (df['home_elo'] - df['away_elo']).round(2)
 # df['goal_difference'] = df['home_score'] - df['away_score']
 # df['tournament_weight'] = df['tournament'].map(tournament_weights).fillna(2)
+# df['home_ranking'] = df['home_team'].map(rankings_df.set_index('team')['points'])
+# df['away_ranking'] = df['away_team'].map(rankings_df.set_index('team')['points'])
+# df['ranking_difference'] = df['home_ranking'] - df['away_ranking']
 # df.to_csv('cleaned_data.csv', index=False)
 
 # ============================================
@@ -132,12 +136,15 @@ competitive_home_scores = competitive['home_score'].values
 competitive_away_scores = competitive['away_score'].values
 competitive_elo_diff = competitive['elo_difference'].values
 competitive_results = competitive['result'].values
+competitive_home_rankings = competitive['home_ranking'].values
+competitive_away_rankings = competitive['away_ranking'].values
+competitive_ranking_diff = competitive['ranking_difference'].values
 
 # ============================================
 # 4. TRAIN RANDOM FOREST MODEL
 # ============================================
 
-features = ['elo_difference', 'home_elo', 'away_elo', 'neutral', 'tournament_weight', 'home_form', 'away_form']
+features = ['elo_difference', 'home_elo', 'away_elo', 'neutral', 'tournament_weight', 'home_form', 'away_form', 'home_ranking', 'away_ranking', 'ranking_difference']
 target = 'result'
 
 X = df[features]
@@ -161,22 +168,37 @@ def predict_score_and_result(home_team, away_team):
     home_elo = elo_ratings.get(home_team, 1000)
     away_elo = elo_ratings.get(away_team, 1000)
     elo_diff = home_elo - away_elo
+    home_ranking = rankings_df.set_index('team')['points'].get(home_team, 0)
+    away_ranking = rankings_df.set_index('team')['points'].get(away_team, 0)
+    ranking_diff = home_ranking - away_ranking
 
     # Vectorized weight calculation — no row by row apply
     elo_similarity = 1 / (1 + np.abs(competitive_elo_diff - elo_diff) / 100)
+    ranking_similarity = 1 / (1 + np.abs(competitive_ranking_diff - ranking_diff) / 100)
 
-    direction_boost = np.ones(len(competitive))
+    elo_direction_boost = np.ones(len(competitive))
     if elo_diff > 50:
-        direction_boost[competitive_results == 'H'] = 3.0
+        elo_direction_boost[competitive_results == 'H'] = 3.0
     elif elo_diff < -50:
-        direction_boost[competitive_results == 'A'] = 3.0
+        elo_direction_boost[competitive_results == 'A'] = 3.0
     else:
-        direction_boost[competitive_results == 'D'] = 3.0
-    direction_boost[competitive_results == 'D'] = np.maximum(
-        direction_boost[competitive_results == 'D'], 1.5
+        elo_direction_boost[competitive_results == 'D'] = 3.0
+    elo_direction_boost[competitive_results == 'D'] = np.maximum(
+        elo_direction_boost[competitive_results == 'D'], 1.5
     )
 
-    weights = elo_similarity * direction_boost
+    ranking_direction_boost = np.ones(len(competitive))
+    if ranking_diff > 100:
+        ranking_direction_boost[competitive_results == 'H'] = 3.0
+    elif ranking_diff < -100:
+        ranking_direction_boost[competitive_results == 'A'] = 3.0
+    else:
+        ranking_direction_boost[competitive_results == 'D'] = 3.0
+    ranking_direction_boost[competitive_results == 'D'] = np.maximum(
+        ranking_direction_boost[competitive_results == 'D'], 1.5
+    )
+
+    weights = elo_similarity * ranking_similarity * elo_direction_boost * ranking_direction_boost
     weights /= weights.sum()
 
     avg_home = np.dot(competitive_home_scores, weights)
@@ -246,11 +268,15 @@ groups = {
 #     lambda team: get_recent_form(team, pd.Timestamp('2026-06-11'))
 # )
 
+# fixtures_df['home_ranking'] = fixtures_df['home_team'].map(rankings_df.set_index('team')['points'])
+# fixtures_df['away_ranking'] = fixtures_df['away_team'].map(rankings_df.set_index('team')['points'])
+# fixtures_df['ranking_difference'] = fixtures_df['home_ranking'] - fixtures_df['away_ranking']
+
 # ============================================
 # 7. PREDICT MATCH OUTCOMES + SCORES
 # ============================================
 
-# def predict_final(row, confidence_threshold=0.50):
+# def predict_final(row):
 #     feature_vals = pd.DataFrame([row[features]])
 #     proba = model.predict_proba(feature_vals)[0]
 #     classes = model.classes_
@@ -259,17 +285,14 @@ groups = {
 #     max_prob = max(proba_dict.values())
 #     predicted = max(proba_dict, key=proba_dict.get)
     
-#     # Even when RF is confident, allow upset based on remaining probability
-#     if max_prob >= confidence_threshold:
-#         upset_chance = (1 - max_prob) ** 1.85
-#         if np.random.random() < upset_chance:
-#             # Sample from non-dominant outcomes weighted by their probabilities
-#             other_classes = [c for c in classes if c != predicted]
-#             other_probs = np.array([proba_dict[c] for c in other_classes])
-#             other_probs /= other_probs.sum()
-#             predicted = np.random.choice(other_classes, p=other_probs)
-#     else:
-#         _, _, predicted = predict_score_and_result(row['home_team'], row['away_team'])
+#     # allow upset based on remaining probability
+#     upset_chance = (1 - max_prob) ** 1.85
+#     if np.random.random() < upset_chance:
+#         # Sample from non-dominant outcomes weighted by their probabilities
+#         other_classes = [c for c in classes if c != predicted]
+#         other_probs = np.array([proba_dict[c] for c in other_classes])
+#         other_probs /= other_probs.sum()
+#         predicted = np.random.choice(other_classes, p=other_probs)
 
 #     h, a, sampled_result = predict_score_and_result(row['home_team'], row['away_team'])
 #     attempts = 0
