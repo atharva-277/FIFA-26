@@ -168,48 +168,35 @@ def predict_score_and_result(home_team, away_team):
     home_elo = elo_ratings.get(home_team, 1000)
     away_elo = elo_ratings.get(away_team, 1000)
     elo_diff = home_elo - away_elo
-    home_ranking = rankings_df.set_index('team')['points'].get(home_team, 0)
-    away_ranking = rankings_df.set_index('team')['points'].get(away_team, 0)
-    ranking_diff = home_ranking - away_ranking
 
-    # Vectorized weight calculation — no row by row apply
-    elo_similarity = 1 / (1 + np.abs(competitive_elo_diff - elo_diff) / 100)
-    ranking_similarity = 1 / (1 + np.abs(competitive_ranking_diff - ranking_diff) / 100)
-
-    elo_direction_boost = np.ones(len(competitive))
-    if elo_diff > 50:
-        elo_direction_boost[competitive_results == 'H'] = 3.0
-    elif elo_diff < -50:
-        elo_direction_boost[competitive_results == 'A'] = 3.0
-    else:
-        elo_direction_boost[competitive_results == 'D'] = 3.0
-    elo_direction_boost[competitive_results == 'D'] = np.maximum(
-        elo_direction_boost[competitive_results == 'D'], 1.5
+    sigma = 100
+    elo_similarity = np.exp(
+        -((competitive_elo_diff - elo_diff) ** 2) / (2 * sigma**2)
     )
 
-    ranking_direction_boost = np.ones(len(competitive))
-    if ranking_diff > 100:
-        ranking_direction_boost[competitive_results == 'H'] = 3.0
-    elif ranking_diff < -100:
-        ranking_direction_boost[competitive_results == 'A'] = 3.0
-    else:
-        ranking_direction_boost[competitive_results == 'D'] = 3.0
-    ranking_direction_boost[competitive_results == 'D'] = np.maximum(
-        ranking_direction_boost[competitive_results == 'D'], 1.5
-    )
-
-    weights = elo_similarity * ranking_similarity * elo_direction_boost * ranking_direction_boost
+    weights = elo_similarity
     weights /= weights.sum()
 
+    # Base expected goals from similar historical matches
     avg_home = np.dot(competitive_home_scores, weights)
     avg_away = np.dot(competitive_away_scores, weights)
-    # Use weighted average as lambda for Poisson sampling
-    avg_home += np.random.normal(0, 0.3)
-    avg_away += np.random.normal(0, 0.3)
 
-    # Sample from Poisson using weighted avg as expected goals
-    h = int(np.random.poisson(max(0.1, avg_home)))
-    a = int(np.random.poisson(max(0.1, avg_away)))
+    # Direct Elo adjustment
+    elo_factor = np.clip(elo_diff / 400, -1.0, 1.0)
+
+    avg_home *= (1 + 0.35 * elo_factor)
+    avg_away *= (1 - 0.35 * elo_factor)
+
+    # Small randomness
+    avg_home += np.random.normal(0, 0.15)
+    avg_away += np.random.normal(0, 0.15)
+
+    avg_home = min(avg_home, 2.3)
+    avg_away = min(avg_away, 2.3)
+
+    # Generate score
+    h = np.random.poisson(avg_home)
+    a = np.random.poisson(avg_away)
 
     if h > a:
         result = 'H'
@@ -218,9 +205,9 @@ def predict_score_and_result(home_team, away_team):
     else:
         result = 'D'
 
-    return h, a, result
+    return int(h), int(a), result
 
-# # Uncomment to evaluate Poisson accuracy
+# # Uncomment to test Poisson accuracy
 # def test_poisson_independent(row):
 #     h, a, predicted = predict_score_and_result(row['home_team'], row['away_team'])
 #     return predicted
