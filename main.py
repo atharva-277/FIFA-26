@@ -191,8 +191,8 @@ def predict_score_and_result(home_team, away_team):
     avg_home += np.random.normal(0, 0.15)
     avg_away += np.random.normal(0, 0.15)
 
-    avg_home = min(avg_home, 2.3)
-    avg_away = min(avg_away, 2.3)
+    avg_home = max(0, min(avg_home, 2.3))
+    avg_away = max(0, min(avg_away, 2.3))
 
     # Generate score
     h = np.random.poisson(avg_home)
@@ -424,6 +424,10 @@ def simulate_group(group_name, predictions_df):
 #     most_common_result = Counter(match_results[i]).most_common(1)[0][0]
 #     matching_scores = [s for s, r in zip(match_scores[i], match_results[i]) if r == most_common_result]
 #     most_common_score = Counter(matching_scores).most_common(1)[0][0]
+#     result_counts = Counter(match_results[i])
+#     fixtures_df.at[i, 'home_win%'] = round(result_counts.get('H', 0) / N_SIMULATIONS * 100, 1)
+#     fixtures_df.at[i, 'draw%']     = round(result_counts.get('D', 0) / N_SIMULATIONS * 100, 1)
+#     fixtures_df.at[i, 'away_win%'] = round(result_counts.get('A', 0) / N_SIMULATIONS * 100, 1)
 #     fixtures_df.at[i, 'predicted_result'] = most_common_result
 #     fixtures_df.at[i, 'home_goals'] = most_common_score[0]
 #     fixtures_df.at[i, 'away_goals'] = most_common_score[1]
