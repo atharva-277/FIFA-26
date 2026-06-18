@@ -392,31 +392,34 @@ if page == 'Match Simulator':
                 unsafe_allow_html=True
             )
 
-            st.markdown('#### Match probabilities (1,000 simulations)')
-            hw = float(row['home_win%'])
-            dr = float(row['draw%'])
-            aw = float(row['away_win%'])
+            # Per-match win probabilities from Monte Carlo
+            if all(c in fixtures_df.columns for c in ['home_win%', 'draw%', 'away_win%']):
+                hw = float(row['home_win%']) if not flipped else float(row['away_win%'])
+                dr = float(row['draw%'])
+                aw = float(row['away_win%']) if not flipped else float(row['home_win%'])
 
-            fig, ax = plt.subplots(figsize=(6, 1.2))
-            ax.barh([0], [hw], color='#1a6b3c', height=0.5)
-            ax.barh([0], [dr], left=[hw], color='#888888', height=0.5)
-            ax.barh([0], [aw], left=[hw + dr], color='#c0392b', height=0.5)
+                st.markdown('#### Match probabilities (1,000 simulations)')
 
-            # Labels inside bars
-            for val, left_pos, color, label in [
-                (hw, 0, 'white', f'{home_team}\n{hw:.0f}%'),
-                (dr, hw, 'white', f'Draw\n{dr:.0f}%'),
-                (aw, hw + dr, 'white', f'{away_team}\n{aw:.0f}%'),
-            ]:
-                if val >= 10:
-                    ax.text(left_pos + val / 2, 0, label, ha='center', va='center',
-                            fontsize=9, color=color, fontweight='bold')
+                fig, ax = plt.subplots(figsize=(6, 1.2))
+                ax.barh([0], [hw], color='#1a6b3c', height=0.5)
+                ax.barh([0], [dr], left=[hw], color='#888888', height=0.5)
+                ax.barh([0], [aw], left=[hw + dr], color='#c0392b', height=0.5)
 
-            ax.set_xlim(0, 100)
-            ax.axis('off')
-            plt.tight_layout()
-            st.pyplot(fig)
-            plt.close()
+                # Labels inside bars
+                for val, left_pos, label in [
+                    (hw, 0, f'{home_team}\n{hw:.0f}%'),
+                    (dr, hw, f'Draw\n{dr:.0f}%'),
+                    (aw, hw + dr, f'{away_team}\n{aw:.0f}%'),
+                ]:
+                    if val >= 10:
+                        ax.text(left_pos + val / 2, 0, label, ha='center', va='center',
+                                fontsize=9, color='white', fontweight='bold')
+
+                ax.set_xlim(0, 100)
+                ax.axis('off')
+                plt.tight_layout()
+                st.pyplot(fig)
+                plt.close()
         else:
             st.warning('No Monte Carlo data found for this matchup.')
 
