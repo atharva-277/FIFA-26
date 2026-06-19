@@ -589,22 +589,23 @@ elif page == 'All Match Results':
             if result == 'H':
                 home_color = '#1a6b3c'
                 away_color = '#c0392b'
-                label = f'{home} win'
+                label = f'🟡 {home} win'
             elif result == 'A':
                 home_color = '#c0392b'
                 away_color = '#1a6b3c'
-                label = f'{away} win'
+                label = f'🟡 {away} win'
             else:
                 home_color = away_color = '#666'
-                label = 'Draw'
+                label = '🟡 Draw'
 
             actual = actual_scores.get((home, away)) or actual_scores.get((away, home))
             actual_str = ''
             if actual:
+                winner = f'{home} Win' if actual[0] > actual[1] else f'{away} Win' if actual[1] > actual[0] else 'Draw'
                 if actual_scores.get((home, away)):
-                    actual_str = f' &nbsp;|&nbsp; 🟡 Actual: {actual[0]}–{actual[1]}'
+                    actual_str = f' &nbsp;|&nbsp; 🟢 Actual: {actual[0]}–{actual[1]} {winner}'
                 else:
-                    actual_str = f' &nbsp;|&nbsp; 🟡 Actual: {actual[1]}–{actual[0]}'
+                    actual_str = f' &nbsp;|&nbsp; 🟢 Actual: {actual[1]}–{actual[0]} {winner}'
 
             st.markdown(
                 f"""
