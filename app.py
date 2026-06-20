@@ -49,7 +49,7 @@ actual_scores = {
     ('Switzerland', 'Bosnia and Herzegovina'): (4, 1),
     ('Canada', 'Qatar'): (6, 0),
     ('Mexico', 'South Korea'): (1, 0),
-    ('United States', 'Turkey'): (2, 0),
+    ('United States', 'Australia'): (2, 0),
     ('Scotland', 'Morocco'): (0, 1),
     ('Brazil', 'Haiti'): (3, 0),
     ('Turkey', 'Paraguay'): (0, 1)
