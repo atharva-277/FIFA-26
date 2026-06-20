@@ -24,7 +24,7 @@ prob_df = pd.read_csv('advancement_probabilities.csv')
 fixtures_df = pd.read_csv('monte_carlo_fixtures.csv')
 
 # ===========================================
-# 2. COMMENTED OUT: Formation of Data
+# 2. COMMENTED OUT: Formation of Data for Group Stage
 #    cleaned_data.csv AND elo_ratings.csv
 #    Uncomment and run if raw data changes
 # ===========================================
@@ -465,127 +465,357 @@ def simulate_group(group_name, predictions_df):
 # VISUAL 1: Match Results (Monte Carlo Fixtures)
 # ============================================
 
-fig, axes = plt.subplots(6, 2, figsize=(22, 60))
-fig.suptitle('2026 FIFA World Cup — Predicted Match Results', 
-             fontsize=20, fontweight='bold', y=0.995)
+# fig, axes = plt.subplots(6, 2, figsize=(22, 60))
+# fig.suptitle('2026 FIFA World Cup — Predicted Match Results', 
+#              fontsize=20, fontweight='bold', y=0.995)
 
-group_list = sorted(groups.keys())
+# group_list = sorted(groups.keys())
 
-for idx, group_name in enumerate(group_list):
-    ax = axes[idx // 2][idx % 2]
-    group_matches = fixtures_df[fixtures_df['group'] == group_name].copy()
-    group_matches = group_matches.reset_index(drop=True)
+# for idx, group_name in enumerate(group_list):
+#     ax = axes[idx // 2][idx % 2]
+#     group_matches = fixtures_df[fixtures_df['group'] == group_name].copy()
+#     group_matches = group_matches.reset_index(drop=True)
 
-    ax.set_xlim(0, 1)
-    ax.set_ylim(-0.5, len(group_matches) - 0.5)
-    ax.axis('off')
-    ax.set_title(f'Group {group_name}', fontsize=14, fontweight='bold', pad=10)
+#     ax.set_xlim(0, 1)
+#     ax.set_ylim(-0.5, len(group_matches) - 0.5)
+#     ax.axis('off')
+#     ax.set_title(f'Group {group_name}', fontsize=14, fontweight='bold', pad=10)
 
-    # Column headers
-    ax.text(0.02, len(group_matches) - 0.1, 'Home', fontsize=12,
-            fontweight='bold', color='#333333', va='center')
-    ax.text(0.5, len(group_matches) - 0.1, 'Score', fontsize=12,
-            fontweight='bold', color='#333333', va='center', ha='center')
-    ax.text(0.98, len(group_matches) - 0.1, 'Away', fontsize=12,
-            fontweight='bold', color='#333333', va='center', ha='right')
+#     # Column headers
+#     ax.text(0.02, len(group_matches) - 0.1, 'Home', fontsize=12,
+#             fontweight='bold', color='#333333', va='center')
+#     ax.text(0.5, len(group_matches) - 0.1, 'Score', fontsize=12,
+#             fontweight='bold', color='#333333', va='center', ha='center')
+#     ax.text(0.98, len(group_matches) - 0.1, 'Away', fontsize=12,
+#             fontweight='bold', color='#333333', va='center', ha='right')
 
-    ax.axhline(y=len(group_matches) - 0.3, color='#cccccc', linewidth=0.8)
+#     ax.axhline(y=len(group_matches) - 0.3, color='#cccccc', linewidth=0.8)
 
-    for i, match in group_matches.iterrows():
-        y = len(group_matches) - 1 - i
-        result = match['predicted_result']
-        home_goals = int(match['home_goals'])
-        away_goals = int(match['away_goals'])
+#     for i, match in group_matches.iterrows():
+#         y = len(group_matches) - 1 - i
+#         result = match['predicted_result']
+#         home_goals = int(match['home_goals'])
+#         away_goals = int(match['away_goals'])
 
-        # Color winners bold
-        home_weight = 'bold' if result == 'H' else 'normal'
-        away_weight = 'bold' if result == 'A' else 'normal'
-        home_color = '#1a6b3c' if result == 'H' else ('#c0392b' if result == 'A' else '#666666')
-        away_color = '#1a6b3c' if result == 'A' else ('#c0392b' if result == 'H' else '#666666')
+#         # Color winners bold
+#         home_weight = 'bold' if result == 'H' else 'normal'
+#         away_weight = 'bold' if result == 'A' else 'normal'
+#         home_color = '#1a6b3c' if result == 'H' else ('#c0392b' if result == 'A' else '#666666')
+#         away_color = '#1a6b3c' if result == 'A' else ('#c0392b' if result == 'H' else '#666666')
 
-        ax.text(0.02, y, match['home_team'], fontsize=11,
-                fontweight=home_weight, color=home_color, va='center')
-        ax.text(0.5, y, f'{home_goals} — {away_goals}', fontsize=10,
-                fontweight='bold', color='#222222', va='center', ha='center')
-        ax.text(0.98, y, match['away_team'], fontsize=11,
-                fontweight=away_weight, color=away_color, va='center', ha='right')
+#         ax.text(0.02, y, match['home_team'], fontsize=11,
+#                 fontweight=home_weight, color=home_color, va='center')
+#         ax.text(0.5, y, f'{home_goals} — {away_goals}', fontsize=10,
+#                 fontweight='bold', color='#222222', va='center', ha='center')
+#         ax.text(0.98, y, match['away_team'], fontsize=11,
+#                 fontweight=away_weight, color=away_color, va='center', ha='right')
 
-        if i < len(group_matches) - 1:
-            ax.axhline(y=y - 0.4, color='#eeeeee', linewidth=0.5)
+#         if i < len(group_matches) - 1:
+#             ax.axhline(y=y - 0.4, color='#eeeeee', linewidth=0.5)
 
-# Legend
-win_patch = mpatches.Patch(color='#1a6b3c', label='Winner')
-loss_patch = mpatches.Patch(color='#c0392b', label='Loser')
-draw_patch = mpatches.Patch(color='#666666', label='Draw')
-fig.legend(handles=[win_patch, loss_patch, draw_patch],
-           loc='lower center', ncol=3, fontsize=11, 
-           bbox_to_anchor=(0.5, 0.001))
+# # Legend
+# win_patch = mpatches.Patch(color='#1a6b3c', label='Winner')
+# loss_patch = mpatches.Patch(color='#c0392b', label='Loser')
+# draw_patch = mpatches.Patch(color='#666666', label='Draw')
+# fig.legend(handles=[win_patch, loss_patch, draw_patch],
+#            loc='lower center', ncol=3, fontsize=11, 
+#            bbox_to_anchor=(0.5, 0.001))
 
-plt.tight_layout(rect=[0, 0.01, 1, 0.995])
-plt.savefig('match_results.png', dpi=150, bbox_inches='tight')
-plt.show()
-print('Saved match_results.png')
+# plt.tight_layout(rect=[0, 0.01, 1, 0.995])
+# plt.savefig('match_results.png', dpi=150, bbox_inches='tight')
+# plt.show()
+# print('Saved match_results.png')
 
-# ============================================
-# VISUAL 2: Advancement Probabilities by Group
-# ============================================
+# # ============================================
+# # VISUAL 2: Advancement Probabilities by Group
+# # ============================================
 
-fig, axes = plt.subplots(6, 2, figsize=(22, 60))
-fig.suptitle('2026 FIFA World Cup — Advancement Probabilities by Group',
-             fontsize=20, fontweight='bold', y=0.995)
+# fig, axes = plt.subplots(6, 2, figsize=(22, 60))
+# fig.suptitle('2026 FIFA World Cup — Advancement Probabilities by Group',
+#              fontsize=20, fontweight='bold', y=0.995)
 
-colors = {
-    '1st%': '#1a6b3c',
-    '2nd%': "#16b71b",
-    '3rd_qual%': "#28f508",
-    '3rd_elim%': "#e30909",
-    '4th%': "#ff0000"
-}
+# colors = {
+#     '1st%': '#1a6b3c',
+#     '2nd%': "#16b71b",
+#     '3rd_qual%': "#28f508",
+#     '3rd_elim%': "#e30909",
+#     '4th%': "#ff0000"
+# }
 
-labels = {
-    '1st%': '1st place',
-    '2nd%': '2nd place',
-    '3rd_qual%': '3rd (qualify)',
-    '3rd_elim%': '3rd (eliminated)',
-    '4th%': '4th place'
-}
+# labels = {
+#     '1st%': '1st place',
+#     '2nd%': '2nd place',
+#     '3rd_qual%': '3rd (qualify)',
+#     '3rd_elim%': '3rd (eliminated)',
+#     '4th%': '4th place'
+# }
 
-for idx, group_name in enumerate(group_list):
-    ax = axes[idx // 2][idx % 2]
-    group_data = prob_df[prob_df['group'] == group_name].copy()
-    group_data = group_data.sort_values('advancement%', ascending=True)
+# for idx, group_name in enumerate(group_list):
+#     ax = axes[idx // 2][idx % 2]
+#     group_data = prob_df[prob_df['group'] == group_name].copy()
+#     group_data = group_data.sort_values('advancement%', ascending=True)
 
-    teams = group_data['team'].tolist()
-    cols = ['4th%', '3rd_elim%', '3rd_qual%', '2nd%', '1st%']
-    left = np.zeros(len(teams))
+#     teams = group_data['team'].tolist()
+#     cols = ['4th%', '3rd_elim%', '3rd_qual%', '2nd%', '1st%']
+#     left = np.zeros(len(teams))
 
-    for col in cols:
-        values = group_data[col].values
-        bars = ax.barh(teams, values, left=left,
-                      color=colors[col], label=labels[col], height=0.6)
+#     for col in cols:
+#         values = group_data[col].values
+#         bars = ax.barh(teams, values, left=left,
+#                       color=colors[col], label=labels[col], height=0.6)
         
-        # Add percentage labels inside bars if wide enough
-        for bar, val in zip(bars, values):
-            if val >= 8:
-                ax.text(bar.get_x() + bar.get_width() / 2,
-                       bar.get_y() + bar.get_height() / 2,
-                       f'{val:.0f}%', ha='center', va='center',
-                       fontsize=8, color='white', fontweight='bold')
-        left += values
+#         # Add percentage labels inside bars if wide enough
+#         for bar, val in zip(bars, values):
+#             if val >= 8:
+#                 ax.text(bar.get_x() + bar.get_width() / 2,
+#                        bar.get_y() + bar.get_height() / 2,
+#                        f'{val:.0f}%', ha='center', va='center',
+#                        fontsize=8, color='white', fontweight='bold')
+#         left += values
 
-    ax.set_xlim(0, 100)
-    ax.set_title(f'Group {group_name}', fontsize=14, fontweight='bold')
-    ax.set_xlabel('Probability (%)', fontsize=9)
-    ax.tick_params(axis='y', labelsize=9)
-    ax.tick_params(axis='x', labelsize=8)
-    ax.axvline(x=50, color='white', linewidth=0.8, linestyle='--', alpha=0.5)
+#     ax.set_xlim(0, 100)
+#     ax.set_title(f'Group {group_name}', fontsize=14, fontweight='bold')
+#     ax.set_xlabel('Probability (%)', fontsize=9)
+#     ax.tick_params(axis='y', labelsize=9)
+#     ax.tick_params(axis='x', labelsize=8)
+#     ax.axvline(x=50, color='white', linewidth=0.8, linestyle='--', alpha=0.5)
 
-# Single shared legend
-handles = [mpatches.Patch(color=colors[c], label=labels[c]) for c in cols[::-1]]
-fig.legend(handles=handles, loc='lower center', ncol=5,
-           fontsize=11, bbox_to_anchor=(0.5, 0.001))
+# # Single shared legend
+# handles = [mpatches.Patch(color=colors[c], label=labels[c]) for c in cols[::-1]]
+# fig.legend(handles=handles, loc='lower center', ncol=5,
+#            fontsize=11, bbox_to_anchor=(0.5, 0.001))
 
-plt.tight_layout(rect=[0, 0.01, 1, 0.995])
-plt.savefig('advancement_probabilities.png', dpi=150, bbox_inches='tight')
-plt.show()
-print('Saved advancement_probabilities.png')
+# plt.tight_layout(rect=[0, 0.01, 1, 0.995])
+# plt.savefig('advancement_probabilities.png', dpi=150, bbox_inches='tight')
+# plt.show()
+# print('Saved advancement_probabilities.png')
+
+# ============================================
+# 10. KNOCKOUT STAGE SIMULATION
+#     (run once Round of 32 bracket is finalized)
+# ============================================
+
+# ------------------------------------------------
+# 10a. PENALTY SHOOTOUT TIEBREAK
+# ------------------------------------------------
+# Real-world shootouts are close to a coin flip with a modest
+# Elo-based lean. Capped so even a big underdog keeps a real shot.
+
+def penalty_shootout_winner(home_elo, away_elo):
+    elo_diff = home_elo - away_elo
+    home_win_prob = 0.5 + 0.0003 * elo_diff
+    home_win_prob = np.clip(home_win_prob, 0.35, 0.65)
+    winner = 'H' if np.random.random() < home_win_prob else 'A'
+    return winner, home_win_prob
+
+
+# ------------------------------------------------
+# 10b. SINGLE KNOCKOUT MATCH SIMULATION
+# ------------------------------------------------
+# Reuses predict_score_and_result for the 90-minute score.
+# If scores are level, goes to penalties (no extra-time goals modeled,
+# since ET is short and doesn't materially change the scoreline for
+# our purposes — we go straight from 90 min draw to penalties).
+
+def simulate_knockout_match(home_team, away_team):
+    h, a, regulation_result = predict_score_and_result(home_team, away_team)
+
+    home_elo = elo_ratings.get(home_team, 1000)
+    away_elo = elo_ratings.get(away_team, 1000)
+
+    went_to_penalties = False
+    pen_home, pen_away = None, None
+
+    if regulation_result == 'D':
+        went_to_penalties = True
+        winner, home_win_prob = penalty_shootout_winner(home_elo, away_elo)
+
+        # Generate a plausible penalty score (winner always ends up ahead)
+        # Typical shootouts run 3-5 scored per side before sudden death
+        pen_home = np.random.randint(3, 6)
+        pen_away = np.random.randint(3, 6)
+        while pen_home == pen_away:
+            pen_away = np.random.randint(3, 6)
+        if winner == 'H' and pen_home < pen_away:
+            pen_home, pen_away = pen_away, pen_home
+        elif winner == 'A' and pen_away < pen_home:
+            pen_home, pen_away = pen_away, pen_home
+
+        advancing_team = home_team if winner == 'H' else away_team
+    else:
+        advancing_team = home_team if regulation_result == 'H' else away_team
+
+    return {
+        'home_team': home_team,
+        'away_team': away_team,
+        'home_goals': int(h),
+        'away_goals': int(a),
+        'went_to_penalties': went_to_penalties,
+        'pen_home': pen_home,
+        'pen_away': pen_away,
+        'advancing_team': advancing_team,
+    }
+
+
+# ------------------------------------------------
+# 10c. BRACKET STRUCTURE
+# ------------------------------------------------
+# Hardcode once Round of 32 matchups are confirmed. Each entry is a
+# (home_team, away_team) tuple. Set to None until known.
+#
+# Example once filled in:
+# round_of_32 = [
+#     ('Mexico', 'Iran'),
+#     ('Brazil', 'Switzerland'),
+#     ...
+# ]
+
+round_of_32 = [
+    # ('1E', '3ABCDF'),
+    # ('1I', '3CDFGH'),
+    # ('2A', '2B'),
+    # ('1F', '2C'),
+    # ('2K', '2L'),
+    # ('1H', '2J'),
+    # ('United States', '3BEFIJ'),
+    # ('1G', '3AEHIJ'),
+    # ('1C', '2F'),
+    # ('2E', '2I'),
+    # ('Mexico', '3CEFHI'),
+    # ('1L', '3EHIJK'),
+    # ('1J', '2H'),
+    # ('2D', '2G'),
+    # ('1B', '3EFGIJ'),
+    # ('1K', '3DEIJL')
+]
+
+
+# ------------------------------------------------
+# 10d. ROUND-BY-ROUND CASCADE SIMULATION
+# ------------------------------------------------
+# Takes a list of (home, away) tuples for one round, simulates all
+# matches, and returns the list of advancing teams in bracket order
+# (so they can be paired up for the next round).
+
+def simulate_round(matchups):
+    results = []
+    advancing = []
+    for home, away in matchups:
+        result = simulate_knockout_match(home, away)
+        results.append(result)
+        advancing.append(result['advancing_team'])
+    return results, advancing
+
+
+def get_losing_team(match_result):
+    # Given a simulate_knockout_match result, returns the team that did NOT advance.
+    if match_result['advancing_team'] == match_result['home_team']:
+        return match_result['away_team']
+    return match_result['home_team']
+
+
+def pair_up(team_list):
+    # Pairs a list of advancing teams into next-round matchups, preserving bracket order (team 0 vs 1, team 2 vs 3, etc.)
+    return [(team_list[i], team_list[i + 1]) for i in range(0, len(team_list), 2)]
+
+
+def simulate_full_bracket(round_32_matchups):
+    # Simulates an entire knockout bracket from Round of 32 to the Final, including the third-place playoff between the two semifinal losers.Returns a dict of all round results plus the champion and 3rd place finisher.
+    bracket_results = {}
+
+    r32_results, r32_advancing = simulate_round(round_32_matchups)
+    bracket_results['Round of 32'] = r32_results
+
+    r16_matchups = pair_up(r32_advancing)
+    r16_results, r16_advancing = simulate_round(r16_matchups)
+    bracket_results['Round of 16'] = r16_results
+
+    qf_matchups = pair_up(r16_advancing)
+    qf_results, qf_advancing = simulate_round(qf_matchups)
+    bracket_results['Quarterfinals'] = qf_results
+
+    sf_matchups = pair_up(qf_advancing)
+    sf_results, sf_advancing = simulate_round(sf_matchups)
+    bracket_results['Semifinals'] = sf_results
+
+    # Third-place playoff: the two semifinal losers face off
+    sf_losers = [get_losing_team(m) for m in sf_results]
+    third_place_result = simulate_knockout_match(sf_losers[0], sf_losers[1])
+    bracket_results['Third Place Playoff'] = [third_place_result]
+    bracket_results['third_place'] = third_place_result['advancing_team']
+
+    final_matchups = pair_up(sf_advancing)
+    final_results, champion = simulate_round(final_matchups)
+    bracket_results['Final'] = final_results
+
+    bracket_results['champion'] = champion[0]
+    return bracket_results
+
+# ------------------------------------------------
+# 10e. MONTE CARLO FOR KNOCKOUT BRACKET
+# ------------------------------------------------
+# Runs the full bracket N times and tracks how often each team
+# reaches / wins each round, plus 3rd place finishes.
+# "Reached round X" means the team advanced INTO round X (i.e. won
+# the previous round). Uncomment once round_of_32 is filled in.
+
+# from collections import Counter
+#
+# N_KNOCKOUT_SIMULATIONS = 1000
+#
+# all_teams_in_bracket = list(set([t for match in round_of_32 for t in match]))
+# knockout_progress = {
+#     team: {
+#         'reached_R16': 0, 'reached_QF': 0, 'reached_SF': 0,
+#         'reached_Final': 0, 'champion': 0, 'third_place': 0
+#     }
+#     for team in all_teams_in_bracket
+# }
+#
+# print('Running knockout Monte Carlo simulation...')
+# for sim in range(N_KNOCKOUT_SIMULATIONS):
+#     if sim % 50 == 0:
+#         print(f'Simulation {sim}/{N_KNOCKOUT_SIMULATIONS}...')
+#
+#     result = simulate_full_bracket(round_of_32)
+#
+#     # Teams that reached each round = advancing teams from the PRIOR round
+#     r32_advancing = [m['advancing_team'] for m in result['Round of 32']]
+#     r16_advancing = [m['advancing_team'] for m in result['Round of 16']]
+#     qf_advancing = [m['advancing_team'] for m in result['Quarterfinals']]
+#     sf_advancing = [m['advancing_team'] for m in result['Semifinals']]
+#
+#     for team in r32_advancing:
+#         knockout_progress[team]['reached_R16'] += 1
+#     for team in r16_advancing:
+#         knockout_progress[team]['reached_QF'] += 1
+#     for team in qf_advancing:
+#         knockout_progress[team]['reached_SF'] += 1
+#     for team in sf_advancing:
+#         knockout_progress[team]['reached_Final'] += 1
+#
+#     knockout_progress[result['champion']]['champion'] += 1
+#     knockout_progress[result['third_place']]['third_place'] += 1
+#
+# print('Done! Processing knockout results...')
+#
+# knockout_prob_rows = []
+# for team in all_teams_in_bracket:
+#     counts = knockout_progress[team]
+#     knockout_prob_rows.append({
+#         'team': team,
+#         'reached_R16%': round(counts['reached_R16'] / N_KNOCKOUT_SIMULATIONS * 100, 1),
+#         'reached_QF%': round(counts['reached_QF'] / N_KNOCKOUT_SIMULATIONS * 100, 1),
+#         'reached_SF%': round(counts['reached_SF'] / N_KNOCKOUT_SIMULATIONS * 100, 1),
+#         'reached_Final%': round(counts['reached_Final'] / N_KNOCKOUT_SIMULATIONS * 100, 1),
+#         'champion%': round(counts['champion'] / N_KNOCKOUT_SIMULATIONS * 100, 1),
+#         'third_place%': round(counts['third_place'] / N_KNOCKOUT_SIMULATIONS * 100, 1),
+#     })
+#
+# knockout_prob_df = pd.DataFrame(knockout_prob_rows)
+# knockout_prob_df = knockout_prob_df.sort_values('champion%', ascending=False)
+# knockout_prob_df.to_csv('knockout_advancement_probabilities.csv', index=False)
+#
+# print('\nKnockout Advancement Probabilities:')
+# print(knockout_prob_df.to_string(index=False))
+# print('\nSaved to knockout_advancement_probabilities.csv!')
