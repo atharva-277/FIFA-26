@@ -52,7 +52,11 @@ actual_scores = {
     ('United States', 'Australia'): (2, 0),
     ('Scotland', 'Morocco'): (0, 1),
     ('Brazil', 'Haiti'): (3, 0),
-    ('Turkey', 'Paraguay'): (0, 1)
+    ('Turkey', 'Paraguay'): (0, 1),
+    ('Netherlands', 'Sweden'): (5, 1),
+    ('Germany', 'Ivory Coast'): (2, 1),
+    ('Ecuador', 'Curaçao'): (0, 0),
+    ('Tunisia', 'Japan'): (0, 4),
 }
 
 # ============================================
