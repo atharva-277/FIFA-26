@@ -671,7 +671,7 @@ def simulate_knockout_match(home_team, away_team):
 # ]
 
 round_of_32 = [
-    # ('1E', '3ABCDF'),
+    # ('Germany', '3ABCDF'),
     # ('1I', '3CDFGH'),
     # ('2A', '2B'),
     # ('1F', '2C'),

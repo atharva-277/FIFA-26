@@ -57,6 +57,10 @@ actual_scores = {
     ('Germany', 'Ivory Coast'): (2, 1),
     ('Ecuador', 'Curaçao'): (0, 0),
     ('Tunisia', 'Japan'): (0, 4),
+    ('Spain', 'Saudi Arabia'): (4, 0),
+    ('Belgium', 'Iran'): (0, 0),
+    ('Uruguay', 'Cape Verde'): (2, 2),
+    ('New Zealand', 'Egypt'): (1, 3),
 }
 
 # ============================================
@@ -126,22 +130,7 @@ def train_model(df):
 # pages below will use mock data automatically until this is populated.
 
 round_of_32_real = [
-    # ('1E', '3ABCDF'),
-    # ('1I', '3CDFGH'),
-    # ('2A', '2B'),
-    # ('1F', '2C'),
-    # ('2K', '2L'),
-    # ('1H', '2J'),
-    # ('1D', '3BEFIJ'),
-    # ('1G', '3AEHIJ'),
-    # ('1C', '2F'),
-    # ('2E', '2I'),
-    # ('Mexico', '3CEFHI'),
-    # ('1L', '3EHIJK'),
-    # ('1J', '2H'),
-    # ('2D', '2G'),
-    # ('1B', '3EFGIJ'),
-    # ('1K', '3DEIJL')
+    # fill in from main.py
 ]
 
 ROUND_ORDER = ['Round of 32', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Final']
