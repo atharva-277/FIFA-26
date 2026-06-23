@@ -61,6 +61,10 @@ actual_scores = {
     ('Belgium', 'Iran'): (0, 0),
     ('Uruguay', 'Cape Verde'): (2, 2),
     ('New Zealand', 'Egypt'): (1, 3),
+    ('Argentina', 'Austria'): (2, 0),
+    ('France', 'Iraq'): (3, 0),
+    ('Norway', 'Senegal'): (3, 2),
+    ('Jordan', 'Algeria'): (1, 2)
 }
 
 # ============================================
