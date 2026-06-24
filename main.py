@@ -660,15 +660,8 @@ def simulate_knockout_match(home_team, away_team):
 # ------------------------------------------------
 # 10c. BRACKET STRUCTURE
 # ------------------------------------------------
-# Hardcode once Round of 32 matchups are confirmed. Each entry is a
-# (home_team, away_team) tuple. Set to None until known.
-#
-# Example once filled in:
-# round_of_32 = [
-#     ('Mexico', 'Iran'),
-#     ('Brazil', 'Switzerland'),
-#     ...
-# ]
+# Hardcoded once Round of 32 matchups are confirmed. Each entry is a
+# (home_team, away_team) tuple.
 
 round_of_32 = [
     # ('Germany', '3ABCDF'),
@@ -807,9 +800,9 @@ def simulate_full_bracket(round_32_matchups):
 #         'reached_R16%': round(counts['reached_R16'] / N_KNOCKOUT_SIMULATIONS * 100, 1),
 #         'reached_QF%': round(counts['reached_QF'] / N_KNOCKOUT_SIMULATIONS * 100, 1),
 #         'reached_SF%': round(counts['reached_SF'] / N_KNOCKOUT_SIMULATIONS * 100, 1),
+#         'third_place%': round(counts['third_place'] / N_KNOCKOUT_SIMULATIONS * 100, 1),
 #         'reached_Final%': round(counts['reached_Final'] / N_KNOCKOUT_SIMULATIONS * 100, 1),
 #         'champion%': round(counts['champion'] / N_KNOCKOUT_SIMULATIONS * 100, 1),
-#         'third_place%': round(counts['third_place'] / N_KNOCKOUT_SIMULATIONS * 100, 1),
 #     })
 #
 # knockout_prob_df = pd.DataFrame(knockout_prob_rows)

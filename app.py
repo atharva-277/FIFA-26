@@ -64,7 +64,11 @@ actual_scores = {
     ('Argentina', 'Austria'): (2, 0),
     ('France', 'Iraq'): (3, 0),
     ('Norway', 'Senegal'): (3, 2),
-    ('Jordan', 'Algeria'): (1, 2)
+    ('Jordan', 'Algeria'): (1, 2),
+    ('Portugal', 'Uzbekistan'): (5, 0),
+    ('England', 'Ghana'): (0, 0),
+    ('Panama', 'Croatia'): (0, 1),
+    ('Colombia', 'DR Congo'): (1, 0),
 }
 
 # ============================================
@@ -431,7 +435,7 @@ if page == 'Match Simulator':
         else:
             ag_actual, hg_actual = actual
         st.info(
-            f'🟡 **Actual result played:** {home_team} **{hg_actual} – {ag_actual}** {away_team}'
+            f'🟢 **Actual result played:** {home_team} **{hg_actual} – {ag_actual}** {away_team}'
         )
 
     # Run simulation
