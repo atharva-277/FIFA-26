@@ -69,6 +69,12 @@ actual_scores = {
     ('England', 'Ghana'): (0, 0),
     ('Panama', 'Croatia'): (0, 1),
     ('Colombia', 'DR Congo'): (1, 0),
+    ('Switzerland', 'Canada'): (2, 1),
+    ('Bosnia and Herzegovina', 'Qatar'): (3, 1),
+    ('Morocco', 'Haiti'): (4, 2),
+    ('Scotland', 'Brazil'): (0, 3),
+    ('Czechia', 'Mexico'): (0, 3),
+    ('South Africa', 'South Korea'): (1, 0)
 }
 
 # ============================================

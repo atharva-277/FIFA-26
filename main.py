@@ -666,19 +666,19 @@ def simulate_knockout_match(home_team, away_team):
 round_of_32 = [
     # ('Germany', '3ABCDF'),
     # ('1I', '3CDFGH'),
-    # ('2A', '2B'),
-    # ('1F', '2C'),
+    # ('South Africa', 'Canada'),
+    # ('1F', 'Morocco'),
     # ('2K', '2L'),
     # ('1H', '2J'),
     # ('United States', '3BEFIJ'),
     # ('1G', '3AEHIJ'),
-    # ('1C', '2F'),
+    # ('Brazil', '2F'),
     # ('2E', '2I'),
     # ('Mexico', '3CEFHI'),
     # ('1L', '3EHIJK'),
-    # ('1J', '2H'),
+    # ('Argentina', '2H'),
     # ('2D', '2G'),
-    # ('1B', '3EFGIJ'),
+    # ('Switzerland', '3EFGIJ'),
     # ('1K', '3DEIJL')
 ]
 
