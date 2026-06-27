@@ -80,7 +80,9 @@ actual_scores = {
     ('Japan', 'Sweden'): (1, 1),
     ('Tunisia', 'Netherlands'): (1, 3),
     ('Paraguay', 'Australia'): (0, 0),
-    ('Turkey', 'United States'): (3, 2)
+    ('Turkey', 'United States'): (3, 2),
+    ('Croatia', 'Ghana'): (2,1),
+    ('Panama','England'): (0,2)
 }
 
 # ============================================
