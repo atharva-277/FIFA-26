@@ -187,6 +187,7 @@ ROUND_ORDER = ['Round of 32', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Fin
 
 knockout_actual_scores = {
     # ('Home Team', 'Away Team'): (home_goals, away_goals, 'H'/'D'/'A', went_to_pens, pen_home, pen_away)
+    ('South Africa', 'Canada'): (0, 1, 'A', False, 0, 0)
 }
 
 def penalty_shootout_winner(home_elo, away_elo):
