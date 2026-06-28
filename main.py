@@ -669,7 +669,7 @@ round_of_32 = [
     ('South Africa', 'Canada'),
     ('Netherlands', 'Morocco'),
     ('Portugal', 'Croatia'),
-    ('Spain', '2J'),
+    ('Spain', 'Austria'),
     ('United States', 'Bosnia and Herzegovina'),
     ('Belgium', 'Senegal'),
     ('Brazil', 'Japan'),
@@ -678,7 +678,7 @@ round_of_32 = [
     ('England', 'DR Congo'),
     ('Argentina', 'Cape Verde'),
     ('Australia', 'Egypt'),
-    ('Switzerland', '3GJ'),
+    ('Switzerland', 'Algeria'),
     ('Colombia', 'Ghana')
 ]
 
@@ -751,63 +751,63 @@ def simulate_full_bracket(round_32_matchups):
 # reaches / wins each round, plus 3rd place finishes.
 # "Reached round X" means the team advanced INTO round X (i.e. won
 
-# from collections import Counter
-#
-# N_KNOCKOUT_SIMULATIONS = 1000
-#
-# all_teams_in_bracket = list(set([t for match in round_of_32 for t in match]))
-# knockout_progress = {
-#     team: {
-#         'reached_R16': 0, 'reached_QF': 0, 'reached_SF': 0,
-#         'reached_Final': 0, 'champion': 0, 'third_place': 0
-#     }
-#     for team in all_teams_in_bracket
-# }
-#
-# print('Running knockout Monte Carlo simulation...')
-# for sim in range(N_KNOCKOUT_SIMULATIONS):
-#     if sim % 50 == 0:
-#         print(f'Simulation {sim}/{N_KNOCKOUT_SIMULATIONS}...')
-#
-#     result = simulate_full_bracket(round_of_32)
-#
-#     # Teams that reached each round = advancing teams from the PRIOR round
-#     r32_advancing = [m['advancing_team'] for m in result['Round of 32']]
-#     r16_advancing = [m['advancing_team'] for m in result['Round of 16']]
-#     qf_advancing = [m['advancing_team'] for m in result['Quarterfinals']]
-#     sf_advancing = [m['advancing_team'] for m in result['Semifinals']]
-#
-#     for team in r32_advancing:
-#         knockout_progress[team]['reached_R16'] += 1
-#     for team in r16_advancing:
-#         knockout_progress[team]['reached_QF'] += 1
-#     for team in qf_advancing:
-#         knockout_progress[team]['reached_SF'] += 1
-#     for team in sf_advancing:
-#         knockout_progress[team]['reached_Final'] += 1
-#
-#     knockout_progress[result['champion']]['champion'] += 1
-#     knockout_progress[result['third_place']]['third_place'] += 1
-#
-# print('Done! Processing knockout results...')
-#
-# knockout_prob_rows = []
-# for team in all_teams_in_bracket:
-#     counts = knockout_progress[team]
-#     knockout_prob_rows.append({
-#         'team': team,
-#         'reached_R16%': round(counts['reached_R16'] / N_KNOCKOUT_SIMULATIONS * 100, 1),
-#         'reached_QF%': round(counts['reached_QF'] / N_KNOCKOUT_SIMULATIONS * 100, 1),
-#         'reached_SF%': round(counts['reached_SF'] / N_KNOCKOUT_SIMULATIONS * 100, 1),
-#         'third_place%': round(counts['third_place'] / N_KNOCKOUT_SIMULATIONS * 100, 1),
-#         'reached_Final%': round(counts['reached_Final'] / N_KNOCKOUT_SIMULATIONS * 100, 1),
-#         'champion%': round(counts['champion'] / N_KNOCKOUT_SIMULATIONS * 100, 1),
-#     })
-#
-# knockout_prob_df = pd.DataFrame(knockout_prob_rows)
-# knockout_prob_df = knockout_prob_df.sort_values('champion%', ascending=False)
-# knockout_prob_df.to_csv('knockout_advancement_probabilities.csv', index=False)
-#
-# print('\nKnockout Advancement Probabilities:')
-# print(knockout_prob_df.to_string(index=False))
-# print('\nSaved to knockout_advancement_probabilities.csv!')
+from collections import Counter
+
+N_KNOCKOUT_SIMULATIONS = 10000
+
+all_teams_in_bracket = list(set([t for match in round_of_32 for t in match]))
+knockout_progress = {
+    team: {
+        'reached_R16': 0, 'reached_QF': 0, 'reached_SF': 0,
+        'reached_Final': 0, 'champion': 0, 'third_place': 0
+    }
+    for team in all_teams_in_bracket
+}
+
+print('Running knockout Monte Carlo simulation...')
+for sim in range(N_KNOCKOUT_SIMULATIONS):
+    if sim % 50 == 0:
+        print(f'Simulation {sim}/{N_KNOCKOUT_SIMULATIONS}...')
+
+    result = simulate_full_bracket(round_of_32)
+
+    # Teams that reached each round = advancing teams from the PRIOR round
+    r32_advancing = [m['advancing_team'] for m in result['Round of 32']]
+    r16_advancing = [m['advancing_team'] for m in result['Round of 16']]
+    qf_advancing = [m['advancing_team'] for m in result['Quarterfinals']]
+    sf_advancing = [m['advancing_team'] for m in result['Semifinals']]
+
+    for team in r32_advancing:
+        knockout_progress[team]['reached_R16'] += 1
+    for team in r16_advancing:
+        knockout_progress[team]['reached_QF'] += 1
+    for team in qf_advancing:
+        knockout_progress[team]['reached_SF'] += 1
+    for team in sf_advancing:
+        knockout_progress[team]['reached_Final'] += 1
+
+    knockout_progress[result['champion']]['champion'] += 1
+    knockout_progress[result['third_place']]['third_place'] += 1
+
+print('Done! Processing knockout results...')
+
+knockout_prob_rows = []
+for team in all_teams_in_bracket:
+    counts = knockout_progress[team]
+    knockout_prob_rows.append({
+        'team': team,
+        'reached_R16%': round(counts['reached_R16'] / N_KNOCKOUT_SIMULATIONS * 100, 1),
+        'reached_QF%': round(counts['reached_QF'] / N_KNOCKOUT_SIMULATIONS * 100, 1),
+        'reached_SF%': round(counts['reached_SF'] / N_KNOCKOUT_SIMULATIONS * 100, 1),
+        'third_place%': round(counts['third_place'] / N_KNOCKOUT_SIMULATIONS * 100, 1),
+        'reached_Final%': round(counts['reached_Final'] / N_KNOCKOUT_SIMULATIONS * 100, 1),
+        'champion%': round(counts['champion'] / N_KNOCKOUT_SIMULATIONS * 100, 1),
+    })
+
+knockout_prob_df = pd.DataFrame(knockout_prob_rows)
+knockout_prob_df = knockout_prob_df.sort_values('champion%', ascending=False)
+knockout_prob_df.to_csv('knockout_advancement_probabilities.csv', index=False)
+
+print('\nKnockout Advancement Probabilities:')
+print(knockout_prob_df.to_string(index=False))
+print('\nSaved to knockout_advancement_probabilities.csv!')

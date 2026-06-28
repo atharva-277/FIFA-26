@@ -91,8 +91,8 @@ actual_scores = {
     ('Panama', 'England'): (0, 2),
     ('Colombia', 'Portugal'): (0, 0),
     ('DR Congo', 'Uzbekistan'): (3, 1),
-    ('Argentina', 'Jordan'): (0, 0),
-    ('Austria', 'Algeria'): (0, 0)
+    ('Argentina', 'Jordan'): (1, 3),
+    ('Austria', 'Algeria'): (3, 3)
 }
 
 # ============================================
@@ -158,7 +158,22 @@ def train_model(df):
 # -------------------------------------------
 
 round_of_32_real = [
-    # fill in from main.py
+    ('Germany', 'Paraguay'),
+    ('France', 'Sweden'),
+    ('South Africa', 'Canada'),
+    ('Netherlands', 'Morocco'),
+    ('Portugal', 'Croatia'),
+    ('Spain', 'Austria'),
+    ('United States', 'Bosnia and Herzegovina'),
+    ('Belgium', 'Senegal'),
+    ('Brazil', 'Japan'),
+    ('Ivory Coast', 'Norway'),
+    ('Mexico', 'Ecuador'),
+    ('England', 'DR Congo'),
+    ('Argentina', 'Cape Verde'),
+    ('Australia', 'Egypt'),
+    ('Switzerland', 'Algeria'),
+    ('Colombia', 'Ghana')
 ]
 
 ROUND_ORDER = ['Round of 32', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Final']
