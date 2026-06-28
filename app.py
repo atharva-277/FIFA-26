@@ -88,7 +88,11 @@ actual_scores = {
     ('New Zealand', 'Belgium'): (1, 5),
     ('Egypt', 'Iran'): (1, 1),
     ('Croatia', 'Ghana'): (2, 1),
-    ('Panama', 'England'): (0, 2)
+    ('Panama', 'England'): (0, 2),
+    ('Colombia', 'Portugal'): (0, 0),
+    ('DR Congo', 'Uzbekistan'): (3, 1),
+    ('Argentina', 'Jordan'): (0, 0),
+    ('Austria', 'Algeria'): (0, 0)
 }
 
 # ============================================
@@ -151,11 +155,7 @@ def train_model(df):
 
 # --------------------------------------------
 # REAL ROUND OF 32 BRACKET
-# --------------------------------------------
-# Fill this in once the actual Round of 32 matchups are confirmed.
-# Order matters: pairs (0,1), (2,3), (4,5)... feed into the next round
-# in that order. Leave as [] until the bracket is set — the knockout
-# pages below will use mock data automatically until this is populated.
+# -------------------------------------------
 
 round_of_32_real = [
     # fill in from main.py
@@ -172,7 +172,6 @@ ROUND_ORDER = ['Round of 32', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Fin
 
 knockout_actual_scores = {
     # ('Home Team', 'Away Team'): (home_goals, away_goals, 'H'/'D'/'A', went_to_pens, pen_home, pen_away)
-    # Example: ('Mexico', 'Iran'): (1, 1, 'H', True, 4, 2),
 }
 
 def penalty_shootout_winner(home_elo, away_elo):

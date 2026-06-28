@@ -664,22 +664,22 @@ def simulate_knockout_match(home_team, away_team):
 # (home_team, away_team) tuple.
 
 round_of_32 = [
-    # ('Germany', 'Paraguay'),
-    # ('France', 'Sweden'),
-    # ('South Africa', 'Canada'),
-    # ('Netherlands', 'Morocco'),
-    # ('2K', 'Croatia'),
-    # ('Spain', '2J'),
-    # ('United States', 'Bosnia and Herzegovina'),
-    # ('Belgium', '3AEHIJ'),
-    # ('Brazil', 'Japan'),
-    # ('Ivory Coast', 'Norway'),
-    # ('Mexico', 'Ecuador'),
-    # ('England', '3EHIJK'),
-    # ('Argentina', 'Cape Verde'),
-    # ('Australia', 'Egypt'),
-    # ('Switzerland', '3EFGIJ'),
-    # ('1K', 'Ghana')
+    ('Germany', 'Paraguay'),
+    ('France', 'Sweden'),
+    ('South Africa', 'Canada'),
+    ('Netherlands', 'Morocco'),
+    ('Portugal', 'Croatia'),
+    ('Spain', '2J'),
+    ('United States', 'Bosnia and Herzegovina'),
+    ('Belgium', 'Senegal'),
+    ('Brazil', 'Japan'),
+    ('Ivory Coast', 'Norway'),
+    ('Mexico', 'Ecuador'),
+    ('England', 'DR Congo'),
+    ('Argentina', 'Cape Verde'),
+    ('Australia', 'Egypt'),
+    ('Switzerland', '3GJ'),
+    ('Colombia', 'Ghana')
 ]
 
 
@@ -750,7 +750,6 @@ def simulate_full_bracket(round_32_matchups):
 # Runs the full bracket N times and tracks how often each team
 # reaches / wins each round, plus 3rd place finishes.
 # "Reached round X" means the team advanced INTO round X (i.e. won
-# the previous round). Uncomment once round_of_32 is filled in.
 
 # from collections import Counter
 #
