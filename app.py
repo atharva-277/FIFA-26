@@ -181,16 +181,34 @@ ROUND_ORDER = ['Round of 32', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Fin
 # --------------------------------------------
 # REAL KNOCKOUT RESULTS (update as matches happen)
 # --------------------------------------------
-# Once an actual knockout match is played, add it here. Format matches
-# actual_scores above. Any match in here is fully locked in the bracket
-# simulator — no simulate button, just the real result shown.
+# Once an actual knockout match is played, it is added here.
 
 knockout_actual_scores = {
     # ('Home Team', 'Away Team'): (home_goals, away_goals, 'H'/'D'/'A', went_to_pens, pen_home, pen_away)
     ('South Africa', 'Canada'): (0, 1, 'A', False, 0, 0),
     ('Brazil', 'Japan'): (2, 1, 'H', False, 0, 0),
     ('Germany', 'Paraguay'): (1, 1, 'A', True, 3, 4),
-    ('Netherlands', 'Morocco'): (1, 1, 'A', True, 2, 3)
+    ('Netherlands', 'Morocco'): (1, 1, 'A', True, 2, 3),
+    ('Ivory Coast', 'Norway'): (1, 2, 'A', False, 0, 0),
+    # ('France', 'Sweden'): (1, 1, 'H', False, 0, 0),
+    # ('Mexico', 'Ecuador'): (1, 1, 'A', False, 0, 0),
+    # ('England', 'DR Congo'): (1, 1, 'A', False, 0, 0),
+    # ('Belgium', 'Senegal'): (1, 1, 'A', False, 0, 0),
+    # ('United States', 'Bosnia and Herzegovina'): (1, 1, 'A', False, 0, 0),
+    # ('Spain', 'Austria'): (1, 1, 'A', False, 0, 0),
+    # ('Portugal', 'Croatia'): (1, 1, 'A', False, 0, 0),
+    # ('Switzerland', 'Algeria'): (1, 1, 'A', False, 0, 0),
+    # ('Australia', 'Egypt'): (1, 1, 'A', False, 0, 0),
+    # ('Argentina', 'Cape Verde'): (1, 1, 'A', False, 0, 0),
+    # ('Colombia', 'Ghana'): (1, 1, 'A', False, 0, 0),
+    # ('Canada', 'Morocco'): (1, 1, 'A', False, 0, 0),
+    # ('Paraguay', 'France/Sweden'): (1, 1, 'A', False, 0, 0),
+    # ('Brazil', 'Norway'): (1, 1, 'A', False, 0, 0),
+    # ('Mexico/Ecuador', 'England/DR Congo'): (1, 1, 'A', False, 0, 0),
+    # ('USA/BH', 'Belgium/Senegal'): (1, 1, 'A', False, 0, 0),
+    # ('Portugal/Croatia', 'Spain/Austria'): (1, 1, 'A', False, 0, 0),
+    # ('Argentina/Cape Verde', 'Australia/Egypt'): (1, 1, 'A', False, 0, 0),
+    # ('Switzerland/Algeria', 'Colombia/Ghana'): (1, 1, 'A', False, 0, 0),
 }
 
 def penalty_shootout_winner(home_elo, away_elo):
@@ -857,6 +875,7 @@ elif page == 'Bracket Simulator':
         st.warning('Round of 32 Matchups not yet finalized, stay tuned for updates!')
 
     st.markdown('Click into any matchup, simulate it, then **Keep** the result to lock it in and feed it into the next round. Your bracket is personal and resets if you reload the page.')
+    lock_real_results = st.toggle('🔒 Lock matches with real results', value=True, help='When on, matches that have already happened show the real score and can\'t be re-simulated. Turn off to explore hypothetical outcomes for those matches too.')
 
     init_bracket_state(active_bracket)
 
@@ -886,7 +905,7 @@ elif page == 'Bracket Simulator':
                 )
                 continue
 
-            real_result = get_real_knockout_result(home, away)
+            real_result = get_real_knockout_result(home, away) if lock_real_results else None
             state_key = f'{round_name}_{i}'
 
             with st.container(border=True):
@@ -947,7 +966,7 @@ elif page == 'Bracket Simulator':
             losers.append(loser)
 
         home3, away3 = losers[0], losers[1]
-        real3 = get_real_knockout_result(home3, away3)
+        real3 = get_real_knockout_result(home3, away3) if lock_real_results else None
         kept3 = st.session_state.bracket_state['Third Place Playoff'].get(0)
 
         with st.container(border=True):
