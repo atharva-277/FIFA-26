@@ -197,7 +197,7 @@ knockout_actual_scores = {
     ('United States', 'Bosnia and Herzegovina'): (2, 0, 'H', False, 0, 0),
     ('Spain', 'Austria'): (3, 0, 'H', False, 0, 0),
     ('Portugal', 'Croatia'): (2, 1, 'H', False, 0, 0),
-    # ('Switzerland', 'Algeria'): (1, 1, 'A', False, 0, 0),
+    ('Switzerland', 'Algeria'): (2, 0, 'H', False, 0, 0),
     # ('Australia', 'Egypt'): (1, 1, 'A', False, 0, 0),
     # ('Argentina', 'Cape Verde'): (1, 1, 'A', False, 0, 0),
     # ('Colombia', 'Ghana'): (1, 1, 'A', False, 0, 0),
@@ -206,9 +206,9 @@ knockout_actual_scores = {
     # ('Brazil', 'Norway'): (1, 1, 'A', False, 0, 0),
     # ('Mexico', 'England'): (1, 1, 'A', False, 0, 0),
     # ('United States', 'Belgium'): (1, 1, 'A', False, 0, 0),
-    # ('Portugal/Croatia', 'Spain'): (1, 1, 'A', False, 0, 0),
+    # ('Portugal', 'Spain'): (1, 1, 'A', False, 0, 0),
     # ('Argentina/Cape Verde', 'Australia/Egypt'): (1, 1, 'A', False, 0, 0),
-    # ('Switzerland/Algeria', 'Colombia/Ghana'): (1, 1, 'A', False, 0, 0),
+    # ('Switzerland', 'Colombia/Ghana'): (1, 1, 'A', False, 0, 0),
 }
 
 def penalty_shootout_winner(home_elo, away_elo):
