@@ -207,7 +207,7 @@ knockout_actual_scores = {
     # ('Mexico', 'England'): (1, 1, 'A', False, 0, 0),
     # ('United States', 'Belgium'): (1, 1, 'A', False, 0, 0),
     # ('Portugal', 'Spain'): (1, 1, 'A', False, 0, 0),
-    # ('Argentina/Cape Verde', 'Australia'): (1, 1, 'A', False, 0, 0),
+    # ('Argentina', 'Australia'): (1, 1, 'A', False, 0, 0),
     # ('Switzerland', 'Colombia/Ghana'): (1, 1, 'A', False, 0, 0),
 }
 
