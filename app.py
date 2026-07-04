@@ -198,8 +198,8 @@ knockout_actual_scores = {
     ('Spain', 'Austria'): (3, 0, 'H', False, 0, 0),
     ('Portugal', 'Croatia'): (2, 1, 'H', False, 0, 0),
     ('Switzerland', 'Algeria'): (2, 0, 'H', False, 0, 0),
-    # ('Australia', 'Egypt'): (1, 1, 'A', False, 0, 0),
-    # ('Argentina', 'Cape Verde'): (1, 1, 'A', False, 0, 0),
+    ('Australia', 'Egypt'): (1, 1, 'A', True, 2, 4),
+    ('Argentina', 'Cape Verde'): (3, 2, 'H', False, 0, 0),
     # ('Colombia', 'Ghana'): (1, 1, 'A', False, 0, 0),
     # ('Canada', 'Morocco'): (1, 1, 'A', False, 0, 0),
     # ('Paraguay', 'France'): (1, 1, 'A', False, 0, 0),
@@ -207,7 +207,7 @@ knockout_actual_scores = {
     # ('Mexico', 'England'): (1, 1, 'A', False, 0, 0),
     # ('United States', 'Belgium'): (1, 1, 'A', False, 0, 0),
     # ('Portugal', 'Spain'): (1, 1, 'A', False, 0, 0),
-    # ('Argentina/Cape Verde', 'Australia/Egypt'): (1, 1, 'A', False, 0, 0),
+    # ('Argentina/Cape Verde', 'Australia'): (1, 1, 'A', False, 0, 0),
     # ('Switzerland', 'Colombia/Ghana'): (1, 1, 'A', False, 0, 0),
 }
 
