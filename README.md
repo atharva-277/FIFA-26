@@ -4,7 +4,7 @@ A project made to simulate the 72 group stage matches and the knockout matchups 
 
 <img width="1918" height="928" alt="Screenshot 2026-06-14 131019" src="https://github.com/user-attachments/assets/ebbbddb9-f4bb-42d8-be37-f6ab06625e4e" />
 
-Try it out yourself at: https://fifa-26.streamlit.app/
+Try it out yourself at: [https://fifa-26.streamlit.app/](https://fifa26.atharva02.hackclub.app/)
 
 # Features
 * Group Stage Page
