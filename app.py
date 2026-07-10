@@ -91,7 +91,7 @@ actual_scores = {
     ('Panama', 'England'): (0, 2),
     ('Colombia', 'Portugal'): (0, 0),
     ('DR Congo', 'Uzbekistan'): (3, 1),
-    ('Argentina', 'Jordan'): (1, 3),
+    ('Argentina', 'Jordan'): (3, 1),
     ('Austria', 'Algeria'): (3, 3)
 }
 
