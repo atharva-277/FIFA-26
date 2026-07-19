@@ -215,6 +215,7 @@ knockout_actual_scores = {
     ('Argentina', 'Switzerland'): (3, 1, 'H', False, 0, 0),
     ('France', 'Spain'): (0, 2, 'A', False, 0, 0),
     ('England', 'Argentina'): (1, 2, 'A', False, 0, 0),
+    ('France', 'England'): (4, 6, 'A', False, 0, 0),
 }
 
 def penalty_shootout_winner(home_elo, away_elo):
